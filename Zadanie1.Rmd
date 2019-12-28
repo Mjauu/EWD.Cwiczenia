@@ -15,14 +15,17 @@ Przed uruchomieniem upewnij sie ze masz:
 1. Pobrać dane ze strony
 ```{r}
 library(RCurl)
+library(bitops)
 URL <- "http://mlr.cs.umass.edu/ml/machine-learning-databases/census-income/census-income.data"
 x <- getURL(URL)
 adult <- read.csv(textConnection(x), header=FALSE, sep=',')
 names(adult) <- c('age', 'workclass', 'fnlwgt', 'education', 'education-num', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'capital-gain', 'capital-loss', 'hours-per-week', 'native-country', 'class')
 ```
 
-Wyswietlic dane
+
+2. Dokonać analizy zbioru danych pod kątem brakujących wartości
 ```{r}
-head(adult[1:6])
+adult <- data.frame(lapply(adult, function(x) {gsub("?", NA , x, fixed = TRUE)}))
+adult_clean <- na.omit(adult)
 ```
 
