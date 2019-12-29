@@ -40,6 +40,8 @@ adult <- subset(adult, select = -c(fnlwgt))
 
 ## 3. Przedstawić wykresy prezentujące udział kobiet i mężczyzn w grupie oraz histogram przedstawiający wiek osób w grupie
 ```{r plot sex, echo=FALSE}
-
+adult <- transform(adult, age = as.numeric(age))
+plot(adult$sex, main="Udzial kobiet i mezczyzn w grupie", ylab="Ilosc osob", xlab="Plec")
+hist(adult$age, main="Histogram wieku osob w grupie", ylab="Czestotliwosc", xlab="Wiek")
 ```
 
