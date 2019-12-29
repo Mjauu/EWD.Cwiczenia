@@ -1,0 +1,45 @@
+---
+title: "Zadanie 1"
+author: "Rafal Jarmolinski, Damian Grzywna"
+date: "29 Dezember 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Zadanie 1
+## Barbara Poszewiecka
+## December 2019
+
+Przed uruchomieniem upewnij sie ze masz:
+- install.packages("RCurl")
+- install.packages("bitops")
+
+Opis:
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+
+## 1. Pobrać dane ze strony
+
+```{r download, echo=FALSE}
+library(RCurl)
+URL <- "http://mlr.cs.umass.edu/ml/machine-learning-databases/census-income/census-income.data"
+x <- getURL(URL)
+adult <- read.csv(textConnection(x), header=FALSE, sep=',')
+names(adult) <- c('age', 'workclass', 'fnlwgt', 'education', 'education-num', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'capital-gain', 'capital-loss', 'hours-per-week', 'native-country', 'class')
+```
+
+## 2. Dokonać analizy zbioru danych pod kątem brakujących wartości
+```{r clean, echo=FALSE}
+adult <- data.frame(lapply(adult, function(x) {gsub("?", NA , x, fixed = TRUE)}))
+adult <- na.omit(adult)
+adult <- subset(adult, select = -c(fnlwgt))
+```
+
+## 3. Przedstawić wykresy prezentujące udział kobiet i mężczyzn w grupie oraz histogram przedstawiający wiek osób w grupie
+```{r plot sex, echo=FALSE}
+
+```
+
