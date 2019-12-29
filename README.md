@@ -2,7 +2,7 @@
 
 Opis zadania: https://www.mimuw.edu.pl/~bp209493/EWD2019Z/Ex1.pdf
 
-Dane bez naglowkow: http://mlr.cs.umass.edu/ml/machine-learning-databases/census-income/census-income.names
+Dane bez naglowkow: http://mlr.cs.umass.edu/ml/machine-learning-databases/census-income/census-income.data
 
 Opis danych: http://mlr.cs.umass.edu/ml/machine-learning-databases/census-income/census-income.names
 
