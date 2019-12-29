@@ -22,7 +22,6 @@ When you click the **Knit** button a document will be generated that includes bo
 
 
 ## 1. Pobrać dane ze strony
-
 ```{r download, echo=FALSE}
 library(RCurl)
 URL <- "http://mlr.cs.umass.edu/ml/machine-learning-databases/census-income/census-income.data"
@@ -44,4 +43,3 @@ adult <- transform(adult, age = as.numeric(age))
 plot(adult$sex, main="Udzial kobiet i mezczyzn w grupie", ylab="Ilosc osob", xlab="Plec")
 hist(adult$age, main="Histogram wieku osob w grupie", ylab="Czestotliwosc", xlab="Wiek")
 ```
-
