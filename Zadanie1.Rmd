@@ -70,7 +70,6 @@ native.americans
 ```
 
 ## 5. Posługując się wykresami/tabelami pokazać jak kształtuje się ilość przepracowanych godzin w tygodniu ze względu na sektor pracy
-
 ```{r hours_per_week_vs_workclass}
 # Change type of workclass from other to factor
 adult$workclass <- sapply(adult$workclass, as.factor)
@@ -91,4 +90,3 @@ barplot(workclass_hours$mean_hours_per_week, names.arg=workclass_hours$workclass
         xlab="id sektora pracy")  
 
 ```
-
