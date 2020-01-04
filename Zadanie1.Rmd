@@ -1,45 +1,77 @@
 ---
 title: "Zadanie 1"
 author: "Rafal Jarmolinski, Damian Grzywna"
-date: "29 Dezember 2019"
-output: html_document
+date: "29 December 2019"
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Zadanie 1
-## Barbara Poszewiecka
-## December 2019
 
-Przed uruchomieniem upewnij sie ze masz:
-- install.packages("RCurl")
-- install.packages("bitops")
-
-Opis:
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
-
-
-## 1. Pobrać dane ze strony
-```{r download, echo=FALSE}
-library(RCurl)
+### 1. Pobrać dane ze strony
+```{r download, results='asis'}
 URL <- "http://mlr.cs.umass.edu/ml/machine-learning-databases/census-income/census-income.data"
-x <- getURL(URL)
-adult <- read.csv(textConnection(x), header=FALSE, sep=',')
+adult <- read.csv(url(URL), header=FALSE)
 names(adult) <- c('age', 'workclass', 'fnlwgt', 'education', 'education-num', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'capital-gain', 'capital-loss', 'hours-per-week', 'native-country', 'class')
 ```
 
-## 2. Dokonać analizy zbioru danych pod kątem brakujących wartości
-```{r clean, echo=FALSE}
-adult <- data.frame(lapply(adult, function(x) {gsub("?", NA , x, fixed = TRUE)}))
-adult <- na.omit(adult)
-adult <- subset(adult, select = -c(fnlwgt))
+Dane zawieraja `r nrow(adult)` wierszy oraz `r ncol(adult)` kolumn.
+
+Wyświetlenie 6 pierwszych wierszy tabeli:
+
+```{r head, echo=FALSE, results='asis'}
+knitr::kable(head(adult), format = "markdown")
 ```
+
+### 2. Dokonać analizy zbioru danych pod kątem brakujących wartości
+
+Zamiana "?" na wartość NA
+```{r replace_missing}
+adult <- data.frame(lapply(adult, function(x) {gsub("?", NA , x, fixed = TRUE)}))
+```
+
+Liczba brakujących danych dla każdej z kolumn:
+```{r display_na, echo=FALSE, results='asis'}
+na_counter <- sapply(adult, function(x) sum(is.na(x)))
+knitr::kable(na_counter, format = "markdown")
+```
+
+Usunięcie wierszy z brakującymi wartościami
+```{r cleaning}
+adult <- na.omit(adult)
+```
+Liczba wierszy po usunięciu brakujących danych: `r nrow(adult)`.
 
 ## 3. Przedstawić wykresy prezentujące udział kobiet i mężczyzn w grupie oraz histogram przedstawiający wiek osób w grupie
 ```{r plot sex, echo=FALSE}
 adult <- transform(adult, age = as.numeric(age))
 plot(adult$sex, main="Udzial kobiet i mezczyzn w grupie", ylab="Ilosc osob", xlab="Plec")
 hist(adult$age, main="Histogram wieku osob w grupie", ylab="Czestotliwosc", xlab="Wiek")
+```
+
+## 5. Posługując się wykresami/tabelami pokazać jak kształtuje się ilość przepracowanych godzin w tygodniu ze względu na sektor pracy
+
+```{r hours_per_week_vs_workclass}
+# Change type of workclass from other to factor
+adult$workclass <- sapply(adult$workclass, as.factor)
+# Change type of hours-per-week from other to numeric
+adult$hours.per.week <- sapply(adult$hours.per.week, as.numeric)
+# count mean of all work classes working hours per week 
+workclass_hours <- aggregate(adult$hours.per.week, by = list(adult$workclass), mean)
+names(workclass_hours) <- c("workclass", "mean_hours_per_week")
+workclass_hours$workclass_id <- c(1:7)
+workclass_hours <- workclass_hours[, c(3, 1, 2)]
+```
+
+```{r echo=FALSE, results='asis'}
+knitr::kable(workclass_hours, format = "markdown")
+barplot(workclass_hours$mean_hours_per_week, names.arg=workclass_hours$workclass_id,  col="#69b3a2", main="Srednia ilosc przepracowanych godzin w 
+      tygodniu ze wzgledu na sektor pracy",
+        ylab="srednia ilosc godzin", 
+        xlab="id sektora pracy")  
+
 ```
