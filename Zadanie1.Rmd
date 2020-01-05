@@ -53,8 +53,23 @@ plot(adult$sex, main="Udzial kobiet i mezczyzn w grupie", ylab="Ilosc osob", xla
 hist(adult$age, main="Histogram wieku osob w grupie", ylab="Czestotliwosc", xlab="Wiek")
 ```
 
-## 5. Posługując się wykresami/tabelami pokazać jak kształtuje się ilość przepracowanych godzin w tygodniu ze względu na sektor pracy
+## 4. Przedstawić tabelę przedstawiającą procentowy udział ”natywnych” amerykanów. Za ”natywnych” amerykanów uważamy te osoby, które w kolumnie ”native country” mają wartość ”United-States” lub ”OutlyingUS(Guam-USVI-etc)”
+```{r}
+i <- sapply(adult, is.factor)
+adult[i] <- lapply(adult[i], as.character)
+native.country <- trimws(adult$native.country)
 
+values.to.find <- c("United-States","Outlying-US(Guam-USVI-etc)")
+occurence <- sapply(values.to.find,function(x,y){sum(y == x, na.rm = TRUE)}, native.country)
+
+native.americans <- matrix(c(sum(occurence), (sum(occurence)/length(native.country))*100), ncol=2, byrow=TRUE)
+colnames(native.americans) <- c("Ilosc osob", "Procent osob w grupie")
+rownames(native.americans) <- c("Rodowici amerykanie")
+native.americans <- as.table(native.americans)
+native.americans
+```
+
+## 5. Posługując się wykresami/tabelami pokazać jak kształtuje się ilość przepracowanych godzin w tygodniu ze względu na sektor pracy
 ```{r hours_per_week_vs_workclass}
 # Change type of workclass from other to factor
 adult$workclass <- sapply(adult$workclass, as.factor)
