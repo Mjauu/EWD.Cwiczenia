@@ -66,7 +66,10 @@ native.americans <- matrix(c(sum(occurence), (sum(occurence)/length(native.count
 colnames(native.americans) <- c("Ilosc osob", "Procent osob w grupie")
 rownames(native.americans) <- c("Rodowici amerykanie")
 native.americans <- as.table(native.americans)
-native.americans
+```
+
+```{r echo=FALSE, results='asis'}
+knitr::kable(native.americans, format = "markdown")
 ```
 
 ## 5. Posługując się wykresami/tabelami pokazać jak kształtuje się ilość przepracowanych godzin w tygodniu ze względu na sektor pracy
@@ -89,4 +92,36 @@ barplot(workclass_hours$mean_hours_per_week, names.arg=workclass_hours$workclass
         ylab="srednia ilosc godzin", 
         xlab="id sektora pracy")  
 
+```
+
+## 6.Policzyć, ile wynosi średni czas pracy w sektorze prywatnym w grupach wyodrębnionych ze względu na wykształcenie wśród osób poniżej 30 roku życia, policzyć minimalny i maksymalny czas pracy w każdej grupie a także liczbę osób w każdej grupie.
+
+```{r}
+private <- subset(adult, workclass == " Private")
+private <- private[private$age < 30, ]
+private$education <- sapply(private$education, as.factor)
+mean_hours <- tapply(private$hours.per.week, private$education, mean)
+mean_hours <- round(mean_hours, digits=2)
+min_hours <- tapply(private$hours.per.week, private$education, min)
+max_hours <- tapply(private$hours.per.week, private$education, max)
+number_of_people <- tapply(private$hours.per.week, private$education, length)
+statistics <- data.frame(mean_hours, min_hours, max_hours, number_of_people)
+```
+
+```{r echo=FALSE, results='asis'}
+knitr::kable(statistics, format = "markdown")
+```
+
+## 7.Przedstawić jakiś ciekawy wykres prezentujący wczytane dane
+
+```{r, echo=FALSE}
+adult$class <- sapply(adult$class, as.factor)
+above50 <- adult[adult$class == " >50K", ]
+above50 <- tapply(above50$class, above50$education, length)
+above50[" Preschool"] = 0
+below50 <- adult[adult$class == " <=50K", ]
+below50 <- tapply(below50$class, below50$education, length)
+class_vs_education <- data.frame(sort(above50), sort(below50))
+barplot(t(as.matrix(class_vs_education)), main='Zarobki wzgledem wyksztalcenia',ylab='ilosc osob', xlab='Wyksztalcenie',beside = TRUE, col=c("red","blue"), las=2, cex.names=.8)
+legend('topleft',fill=c("red","blue"),legend=c('powyzej 50K','ponizej 50k'))
 ```
