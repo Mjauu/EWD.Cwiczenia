@@ -1,9 +1,5 @@
-# EWD.Cwiczenia
+# Census-income dataset by UMass Amherst analysis
 
-Opis zadania: https://www.mimuw.edu.pl/~bp209493/EWD2019Z/Ex1.pdf
+Data: http://mlr.cs.umass.edu/ml/machine-learning-databases/census-income/census-income.data
 
-Dane bez naglowkow: http://mlr.cs.umass.edu/ml/machine-learning-databases/census-income/census-income.data
-
-Opis danych: http://mlr.cs.umass.edu/ml/machine-learning-databases/census-income/census-income.names
-
-Naglowki: 'age', 'workclass', 'fnlwgt', 'education', 'education-num', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'capital-gain', 'capital-loss', 'hours-per-week', 'native-country', 'class'
+Addition informations: http://mlr.cs.umass.edu/ml/machine-learning-databases/census-income/census-income.names
