@@ -1,5 +1,5 @@
 ---
-title: "Zadanie 1"
+title: "Census-income.Analysis"
 author: "Rafal Jarmolinski, Damian Grzywna"
 date: "29 December 2019"
 output:
