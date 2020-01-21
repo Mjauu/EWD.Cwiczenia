@@ -1,6 +1,6 @@
 # Census-income dataset by UMass Amherst
 
-Basic analysis.
+Basic analysis in R.
 
 Data: http://mlr.cs.umass.edu/ml/machine-learning-databases/census-income/census-income.data
 
